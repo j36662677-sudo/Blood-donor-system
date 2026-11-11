@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Donor | LifeLine</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 14px;
+            text-align: center;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 4px 18px #00000015;
+        }
+
+        .icon {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #c62828;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .donor-name {
+            color: #222;
+            font-weight: bold;
+        }
+
+        .btn {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 8px 4px;
+            font-size: 14px;
+        }
+
+        .delete {
+            background: #c62828;
+            color: white;
+        }
+
+        .delete:hover {
+            background: #a61f1f;
+        }
+
+        .cancel {
+            background: #e5e7eb;
+            color: #222;
+        }
+
+        .cancel:hover {
+            background: #d1d5db;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <div class="icon">⚠️</div>
+
+        <h2>Delete Donor</h2>
+
+        <p>
+            Are you sure you want to delete the donor details for
+            <span class="donor-name">{{ donor.name }}</span>?
+        </p>
+
+        <p>This action cannot be undone.</p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <button type="submit" class="btn delete">
+                Yes, Delete
+            </button>
+
+            <a href="{% url 'donor_list' %}" class="btn cancel">
+                Cancel
+            </a>
+        </form>
+    </div>
+</body>
+</html>

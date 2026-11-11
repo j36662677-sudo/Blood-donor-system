@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLine | Blood Donor Management</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #c62828;
+            --primary-dark: #991b1b;
+            --text-dark: #202635;
+            --muted: #737b8c;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background: white;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        .navbar {
+            padding: 18px 0;
+            background: rgba(255,255,255,.97);
+            border-bottom: 1px solid #f0e6e6;
+        }
+
+        .brand {
+            font-size: 23px;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .brand span { color: var(--text-dark); }
+
+        .nav-link {
+            color: #424958;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 0 8px;
+        }
+
+        .nav-link:hover { color: var(--primary); }
+
+        .btn-primary-custom, .btn-outline-custom {
+            border-radius: 8px;
+            padding: 12px 21px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: .25s;
+        }
+
+        .btn-primary-custom {
+            background: var(--primary);
+            color: white;
+            border: 1px solid var(--primary);
+        }
+
+        .btn-primary-custom:hover {
+            background: var(--primary-dark);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-custom {
+            border: 1px solid #e1b8b8;
+            color: var(--primary);
+            background: white;
+        }
+
+        .btn-outline-custom:hover {
+            background: #fff0f0;
+            color: var(--primary-dark);
+        }
+
+        .btn-logout {
+            border: 1px solid #c62828;
+            color: #c62828;
+            background: white;
+            border-radius: 8px;
+            padding: 12px 18px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .btn-logout:hover {
+            color: white;
+            background: #c62828;
+        }
+
+        .hero {
+            padding: 80px 0;
+            background:
+                radial-gradient(circle at 85% 20%, #ffe0e0 0, transparent 30%),
+                linear-gradient(120deg, #fffafa, #fff0f0);
+            overflow: hidden;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            background: #ffe2e2;
+            color: var(--primary-dark);
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 22px;
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 5vw, 62px);
+            line-height: 1.12;
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 22px;
+        }
+
+        .hero h1 span { color: var(--primary); }
+
+        .hero-description {
+            color: var(--muted);
+            font-size: 16px;
+            line-height: 1.9;
+            max-width: 520px;
+            margin-bottom: 30px;
+        }
+
+        .hero-visual {
+            min-height: 340px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .blood-art {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #ef4444, #a50e1b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 100px;
+            box-shadow: 0 25px 65px #bd252540;
+            position: relative;
+        }
+
+        .blood-art::before {
+            content: "";
+            position: absolute;
+            inset: -18px;
+            border: 1px solid #edb4b4;
+            border-radius: 50%;
+        }
+
+        .floating-card {
+            position: absolute;
+            background: white;
+            padding: 16px;
+            border-radius: 12px;
+            box-shadow: 0 10px 35px #77222212;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .floating-card small {
+            display: block;
+            color: var(--muted);
+            margin-top: 5px;
+            font-weight: 400;
+        }
+
+        .float-one { top: 35px; right: 0; }
+        .float-two { bottom: 35px; left: 0; }
+
+        .section-padding { padding: 75px 0; }
+
+        .section-label {
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .section-title {
+            font-size: clamp(27px, 3vw, 38px);
+            font-weight: 800;
+            margin-top: 12px;
+            margin-bottom: 15px;
+        }
+
+        .section-description {
+            color: var(--muted);
+            line-height: 1.8;
+            max-width: 580px;
+            margin: 0 auto;
+        }
+
+        .stats-section { padding: 0 0 45px; }
+
+        .stat-card {
+            padding: 24px 20px;
+            border: 1px solid #f0e7e7;
+            border-radius: 14px;
+            background: white;
+            height: 100%;
+            transition: .25s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 35px #4619190d;
+        }
+
+        .stat-icon, .service-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff0f0;
+            border-radius: 12px;
+            margin-bottom: 18px;
+        }
+
+        .stat-icon {
+            width: 46px;
+            height: 46px;
+            color: var(--primary);
+            font-size: 22px;
+        }
+
+        .stat-number {
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .services { background: #fcfcfd; }
+
+        .service-card {
+            background: white;
+            border: 1px solid #eee9e9;
+            border-radius: 16px;
+            padding: 28px;
+            height: 100%;
+            transition: .25s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: #efb5b5;
+            box-shadow: 0 15px 35px #4317170b;
+        }
+
+        .service-icon {
+            width: 58px;
+            height: 58px;
+            font-size: 27px;
+        }
+
+        .service-card h5 {
+            font-weight: 750;
+            margin-bottom: 13px;
+        }
+
+        .service-card p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.9;
+            margin-bottom: 22px;
+        }
+
+        .service-link {
+            color: var(--primary);
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .cta-section { padding: 75px 0; }
+
+        .cta-box {
+            padding: 50px 25px;
+            border-radius: 22px;
+            background: linear-gradient(120deg, #a91520, #d93636);
+            color: white;
+            text-align: center;
+            box-shadow: 0 20px 45px #c6282826;
+        }
+
+        .cta-box h2 {
+            font-weight: 800;
+            font-size: clamp(27px, 3vw, 38px);
+            margin-bottom: 15px;
+        }
+
+        .cta-box p {
+            color: #ffe6e6;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto 25px;
+        }
+
+        .cta-box .btn {
+            background: white;
+            color: var(--primary);
+            font-weight: 700;
+            padding: 13px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+
+        footer {
+            border-top: 1px solid #f0e7e7;
+            padding: 28px 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        @media (max-width: 767px) {
+            .hero { padding: 55px 0; }
+            .hero-visual { min-height: 280px; margin-top: 25px; }
+            .blood-art { width: 190px; height: 190px; font-size: 75px; }
+            .section-padding { padding: 55px 0; }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+        <a class="brand" href="{% url 'dashboard_home' %}">Life<span>Line.</span></a>
+
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="#home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#services">Our Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">About</a>
+                </li>
+
+                {% if user.is_authenticated %}
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <span class="nav-link">Hi, {{ user.username }}</span>
+                    </li>
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-logout"
+                                    onclick="return confirm('Are you sure you want to logout?')">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <a class="btn-outline-custom" href="{% url 'register' %}">
+                            Register
+                        </a>
+                    </li>
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                        <a class="btn-primary-custom" href="{% url 'login' %}">
+                            Login
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="hero" id="home">
+    <div class="container">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-7">
+                <span class="eyebrow">❤️ EVERY DONATION MATTERS</span>
+                <h1>Be the reason<br>someone gets a <span>second chance.</span></h1>
+
+                <p class="hero-description">
+                    Connect with blood donors, find help when it matters
+                    most, and become part of a community that believes
+                    every life is precious.
+                </p>
+
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="{% url 'search_donors' %}" class="btn-primary-custom">
+                        Find a Blood Donor →
+                    </a>
+                    <a href="{% url 'add_donor' %}" class="btn-outline-custom">
+                        Become a Donor
+                    </a>
+                </div>
+
+                <p class="mt-4 mb-0 text-secondary small">
+                    A simple connection can make a life-changing difference.
+                </p>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="hero-visual">
+                    <div class="blood-art">♥</div>
+                    <div class="floating-card float-one">
+                        🩸 Every Drop Counts
+                        <small>Give blood. Give hope.</small>
+                    </div>
+                    <div class="floating-card float-two">
+                        🤝 Together We Save Lives
+                        <small>One community. One mission.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="stats-section" id="about">
+    <div class="container">
+        <div class="row g-3">
+            <div class="col-6 col-lg-3">
+                <div class="stat-card">
+                    <div class="stat-icon">🩸</div>
+                    <div class="stat-number">{{ donor_count|default:"0" }}</div>
+                    <div class="stat-label">Registered Donors</div>
+                </div>
+            </div>
+
+            <div class="col-6 col-lg-3">
+                <div class="stat-card">
+                    <div class="stat-icon">📋</div>
+                    <div class="stat-number">{{ request_count|default:"0" }}</div>
+                    <div class="stat-label">Blood Requests</div>
+                </div>
+            </div>
+
+            <div class="col-6 col-lg-3">
+                <div class="stat-card">
+                    <div class="stat-icon">💗</div>
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Blood Groups</div>
+                </div>
+            </div>
+
+            <div class="col-6 col-lg-3">
+                <div class="stat-card">
+                    <div class="stat-icon">⏳</div>
+                    <div class="stat-number">{{ pending_requests|default:"0" }}</div>
+                    <div class="stat-label">Pending Requests</div>
+                </div>
+            </div>
+
+            <div class="col-6 col-lg-3">
+                <div class="stat-card">
+                    <div class="stat-icon">🌍</div>
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Community Access</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="services section-padding" id="services">
+    <div class="container">
+        <div class="text-center mb-5">
+            <div class="section-label">WHAT WE DO</div>
+            <h2 class="section-title">Everything you need, in one place</h2>
+            <p class="section-description">
+                Our platform makes it easier for donors and people in need
+                to connect through a simple, organized process.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="service-card">
+                    <div class="service-icon">🔎</div>
+                    <h5>Find Blood Donors</h5>
+                    <p>Search registered donors by blood group, location, and availability.</p>
+                    <a href="{% url 'search_donors' %}" class="service-link">Explore donors →</a>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="service-card">
+                    <div class="service-icon">🩸</div>
+                    <h5>Become a Donor</h5>
+                    <p>Create your donor profile and share your availability to help others.</p>
+                    <a href="{% url 'add_donor' %}" class="service-link">Register as donor →</a>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="service-card">
+                    <div class="service-icon">📋</div>
+                    <h5>Blood Requests</h5>
+                    <p>Submit a blood request and check its current status.</p>
+                    <a href="{% url 'request_list' %}" class="service-link">View requests →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-box">
+            <h2>Your small act can save a life.</h2>
+            <p>
+                Join our blood donor community. Whether you need blood or
+                want to donate, your next step could make a real difference.
+            </p>
+            <a href="{% url 'register' %}" class="btn">Join the Community →</a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="row align-items-center g-3">
+            <div class="col-md-6">
+                <a href="{% url 'dashboard_home' %}" class="brand">Life<span>Line.</span></a>
+                <p class="mt-2 mb-0">Connecting donors. Supporting lives.</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p class="mb-0">
+                    © {% now "Y" %} LifeLine Blood Donor Management System.
+                    All rights reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+@media (max-width: 767px) {
+    .navbar .navbar-collapse {
+        padding-top: 15px;
+    }
+
+    .navbar-nav {
+        align-items: stretch !important;
+        gap: 8px;
+    }
+
+    .navbar-nav .nav-item {
+        margin-left: 0 !important;
+        margin-top: 0 !important;
+    }
+
+    .navbar-nav .nav-link {
+        padding: 8px;
+    }
+
+    .navbar-nav form {
+        padding: 0 8px;
+    }
+
+    .hero {
+        padding: 45px 0;
+    }
+
+    .hero h1 {
+        font-size: 38px;
+        letter-spacing: -1px;
+    }
+
+    .hero-visual {
+        margin-top: 20px;
+    }
+}
